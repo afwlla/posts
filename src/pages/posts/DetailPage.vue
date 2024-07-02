@@ -1,8 +1,8 @@
 <template>
 	<div>
-		<h2>Detail Page</h2>
-		<p>content</p>
-		<p class="text-muted">createdat</p>
+		<h2>{{ data.title }}</h2>
+		<p>{{ data.content }}</p>
+		<p class="text-muted">{{ data.createdAt }}</p>
 		<hr class="my-4" />
 
 		<div class="row g-2">
@@ -31,17 +31,28 @@
 </template>
 
 <script setup>
-import { useRoute, useRouter } from 'vue-router';
+import { useRouter } from 'vue-router';
+import { getPostById } from '@/api/posts';
+import { ref } from 'vue';
 
+const props = defineProps({
+	id: Number,
+});
 const router = useRouter();
-const route = useRoute();
-const id = route.params.id;
+//const route = useRoute();
+//const id = route.params.id;
+const data = ref({});
+
+const fetchPost = () => {
+	data.value = { ...getPostById(props.id) };
+};
+fetchPost();
 
 const goListPage = () => {
 	router.push({ name: 'postList' });
 };
 const goEditPage = () => {
-	router.push({ name: 'edit', params: { id } });
+	router.push({ name: 'edit', params: { id: props.id } });
 };
 </script>
 
