@@ -32,7 +32,14 @@ import { useRouter } from 'vue-router';
 
 const router = useRouter();
 
-const posts = ref(getPosts());
+const posts = ref({});
+
+const fetchPost = async () => {
+	const { data } = await getPosts();
+	posts.value = data;
+};
+fetchPost();
+
 const goPage = id => {
 	//router.push(`/posts/${id}`);
 	router.push({ name: 'detail', params: { id } });

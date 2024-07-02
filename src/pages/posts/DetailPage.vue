@@ -1,8 +1,8 @@
 <template>
 	<div>
-		<h2>{{ data.title }}</h2>
-		<p>{{ data.content }}</p>
-		<p class="text-muted">{{ data.createdAt }}</p>
+		<h2>{{ post.title }}</h2>
+		<p>{{ post.content }}</p>
+		<p class="text-muted">{{ post.createdAt }}</p>
 		<hr class="my-4" />
 
 		<div class="row g-2">
@@ -24,7 +24,7 @@
 				</button>
 			</div>
 			<div class="col-auto">
-				<button class="btn btn-outline-danger">Delete</button>
+				<button class="btn btn-outline-danger" @click="remove">Delete</button>
 			</div>
 		</div>
 	</div>
@@ -32,21 +32,28 @@
 
 <script setup>
 import { useRouter } from 'vue-router';
-import { getPostById } from '@/api/posts';
+import { getPostById, deletePost } from '@/api/posts';
 import { ref } from 'vue';
 
 const props = defineProps({
 	id: Number,
 });
 const router = useRouter();
-//const route = useRoute();
-//const id = route.params.id;
-const data = ref({});
 
-const fetchPost = () => {
-	data.value = { ...getPostById(props.id) };
+const post = ref({});
+
+const fetchPost = async () => {
+	const { data } = await getPostById(props.id);
+	post.value = { ...data };
 };
 fetchPost();
+
+const remove = async () => {
+	if (confirm('are you sure?')) {
+		await deletePost(props.id);
+	}
+	router.push({ name: 'postList' });
+};
 
 const goListPage = () => {
 	router.push({ name: 'postList' });

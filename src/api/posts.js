@@ -1,15 +1,21 @@
-const posts = [
-	{ id: 1, title: 'subject1', content: 'content1', createAt: '2020-01-01' },
-	{ id: 2, title: 'subject2', content: 'content2', createAt: '2020-02-02' },
-	{ id: 3, title: 'subject3', content: 'content3', createAt: '2020-03-03' },
-	{ id: 4, title: 'subject4', content: 'content4', createAt: '2020-04-04' },
-	{ id: 5, title: 'subject5', content: 'content5', createAt: '2020-05-05' },
-];
+import axios from 'axios';
 
 export function getPosts() {
-	return posts;
+	return axios.get('http://localhost:3000/posts');
 }
 
 export function getPostById(id) {
-	return posts.find(item => item.id === id);
+	return axios.get(`http://localhost:3000/posts/${id}`);
+}
+
+export function createPost(data) {
+	return axios.post('http://localhost:3000/posts', data);
+}
+
+export function updatePost(id, data) {
+	return axios.put(`http://localhost:3000/posts/${id}`, data);
+}
+
+export function deletePost(id) {
+	return axios.delete(`http://localhost:3000/posts/${id}`);
 }
