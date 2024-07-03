@@ -24,7 +24,11 @@
 		<AppPagination
 			:current-page="params._page"
 			:page-count="pageCount"
-			@page="page => (params._page = page)"
+			@page="
+				page => {
+					params._page = page;
+				}
+			"
 		/>
 
 		<hr class="my-4" />
