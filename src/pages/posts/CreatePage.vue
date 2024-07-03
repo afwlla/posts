@@ -3,26 +3,12 @@
 		<h2>Create Page</h2>
 		<hr />
 
-		<form @submit.prevent="save">
-			<div class="mb-3">
-				<label for="subject" class="form-label">Subject</label>
-				<input
-					v-model="form.title"
-					type="text"
-					class="form-control"
-					id="subject"
-				/>
-			</div>
-			<div class="mb-3">
-				<label for="content" class="form-label">Content</label>
-				<textarea
-					v-model="form.content"
-					class="form-control"
-					id="content"
-					rows="3"
-				></textarea>
-			</div>
-			<div class="pt-4">
+		<PostForm
+			v-model:title="form.title"
+			v-model:content="form.content"
+			@submit.prevent="save"
+		>
+			<template #actions>
 				<button
 					type="button"
 					class="btn btn-outline-dark me-2"
@@ -33,8 +19,8 @@
 				<button type="button" class="btn btn-primary" @click="save">
 					Save
 				</button>
-			</div>
-		</form>
+			</template>
+		</PostForm>
 	</div>
 </template>
 
@@ -42,6 +28,7 @@
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { createPost } from '@/api/posts';
+import PostForm from '@/components/posts/PostForm.vue';
 
 const router = useRouter();
 
